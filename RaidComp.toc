@@ -1,0 +1,20 @@
+## Interface: 30300
+## Title: Raid Comp by Maraka
+## Notes: The purpose of Wrath Raid Comp is to help visualize the composition of a Wrath of the Lich King 10 or 25 person raid.
+## SavedVariables:  WrathRaidComp
+## Author: Maraka
+## Version: 0.0.0 beta
+## X-License: MIT/X
+## X-Category: Info
+## X-Website: https://github.com/Vadimvr/RaidComp
+
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
+
+Libs\LibGroupTalents-1.0\lib.xml
+
+
+Locales\Locales.xml
+Core.lua
