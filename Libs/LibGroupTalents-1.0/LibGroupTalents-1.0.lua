@@ -46,9 +46,9 @@ Functions:
 	PurgeAndRescanTalents()					-- Wipe current roster of all talents and rescan from start
 
 Convenience Functions (Similar to Blizzard API functions, but callable with a unit ID):
-	GetActiveTalentGroup(unit)				-- Returns: Active talent group for unit
-	GetNumTalentGroups(unit)				-- Returns: Number of talent groups for unit
-	GetNumTalentTabs(unit)					-- Returns: Number of talent tabs. Here's a clue; it's going to be 3...
+	GetActiveTalentGroup(unit)				-- Возвращает: Активная группа талантов для юнита
+	GetNumTalentGroups(unit)				-- Возвращает: количество групп талантов для юнита.
+	GetNumTalentTabs(unit)					-- Возвращает: количество вкладок талантов. Вот подсказка; будет 3...
 	GetTalentTabInfo(unit, tab[, group])	-- Returns: Tree Name, Tree Icon, Points Spent, Tree Background
 	GetNumTalents(unit, tab)				-- Returns: Number of talents for specified tree
 	GetTalentInfo(unit, tab, index[, group])-- Returns: Talent Name, Icon, Tier, Column, Points Spent, Max Rank (Note that preview return values are not given unless called with "player")
@@ -426,7 +426,7 @@ end
 
 -- ValidateUnit
 local function ValidateUnit(r, guid)
-	local unit = r.unit
+	local unit = r.unit	
 	if (UnitGUID(unit) ~= guid) then
 		local name = r.name .. (r.realm and "-" or "") .. (r.realm or "")
 		local index = UnitInRaid(name)
@@ -956,7 +956,7 @@ function lib:GetGUIDGlyphs(guid, group)
 		end
 	end
 end
-
+                                        
 -- UnitHasGlyph
 function lib:UnitHasGlyph(unit, glyphID, group)
 	return lib:GUIDHasGlyph(UnitGUID(unit), glyphID, group)
@@ -1215,7 +1215,7 @@ do
 				if (class == "PRIEST") then
 					role = ((t1 + t2) > t3) and "healer" or "caster"
 				elseif (class == "WARRIOR") then
-					role = ((t1 + t2) > t3) and "melee" or "tank"
+					role = ((t1 + t2) > t3) and "melee" or "tank" 
 				else
 					local heavy = (t1 > t2 and t1 > t3 and 1) or (t2 > t1 and t2 > t3 and 2) or (t3 > t1 and t3 > t2 and 3) or 0
 					if (class == "PALADIN") then
@@ -1557,10 +1557,11 @@ function lib:GetActiveTalentGroup(unit)
 	if (UnitIsUnit(unit, "player")) then
 		return GetActiveTalentGroup()
 	else
+        --print("guid", unit, UnitGUID(unit) )
 		local guid = unit and UnitGUID(unit)
 		local r = guid and self.roster[guid]
 		return r and r.active or nil
-	end
+	 end
 end
 
 -- GetNumTalentGroups
