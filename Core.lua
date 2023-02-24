@@ -31,7 +31,8 @@ end
 
 function Core:ADDON_LOADED(addOnName)
     WrathRaidComp = WrathRaidComp or {};
-    ns.RaidSpec = WrathRaidComp.RaidSpe or {}
+    WrathRaidComp.minimap = WrathRaidComp.minimap or { hide = false, }
+    ns.RaidSpec = WrathRaidComp.RaidSpec or {}
     if AddOnName ~= addOnName then return; end
     ns.Icon:ADDON_LOADED(addOnName, Core)
     ns.MainWindow:Init();
@@ -53,7 +54,13 @@ function Core:Check__Delay()
 end
 
 function Core:RAID_ROSTER_UPDATE()
-    Delay(Core, GetTime(), 0.2);
+    if UnitInRaid("player") then
+        Delay(Core, GetTime(), 0.2);
+    else
+        ns.RaidSpec = {}
+        WrathRaidComp.RaidSpec = {}
+        Delay(Core, GetTime(), 0);
+    end
 end
 
 function Core:UpdatePlayersRaidFrame(player)
@@ -94,11 +101,24 @@ function Core:Check()
                 ns.RaidSpec[name].class = fileName;
                 ns.RaidSpec[name].group = subgroup;
                 ns.RaidSpec[name].inRaid = "raid" .. i;
-                ns.RaidSpec[name].isUpdate = false;
+                local newSpec = ns.Spec:GetPlayerSpecID(name, fileName, "raid" .. i);
 
-                if ns.RaidSpec[name].spec == nil or ns.RaidSpec[name].spec == 0 then
-                    ns.RaidSpec[name].spec = ns.Spec:GetPlayerSpecID(name, fileName, "raid" .. i);
+                -- Specialization unit;
+             --   print("newSpec = ", newSpec, "Name = ", name)
+                if(ns.RaidSpec[name].isUpdate) then
+                    if (newSpec > 0) then
+                        ns.RaidSpec[name].isUpdate = false;
+                        ns.RaidSpec[name].spec = newSpec;
+                    end
+                else
+                    ns.RaidSpec[name].isUpdate = false;
+                    ns.RaidSpec[name].spec = newSpec;
                 end
+                -- if (newSpec > 0) then
+                --     ns.RaidSpec[name].isUpdate = false;
+                --     ns.RaidSpec[name].spec = newSpec;
+                -- end
+             
             end
         end
     end

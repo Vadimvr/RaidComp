@@ -9,7 +9,7 @@ ns.Icon = icon;
 local core;
 function icon:ADDON_LOADED(addOnName, Frame)
     core = Frame;
-    icon:Register(tostring(addOnName), ldb, { hide = false, })
+    icon:Register(tostring(addOnName), ldb, WrathRaidComp.minimap)
 end
 
 function ldb:OnTooltipShow()

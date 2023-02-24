@@ -8,6 +8,7 @@ local width                       = 800;
 local height                      = 670;
 local textPlayerInRaidFrame       = "%s\n|cff".."6bed5f".."%s|r";
 local textPlayerInRaidFrameUpdate = "%s\n|cff".."f2f542".."%s|r";
+local textPlayerInRaidFrameUnknown = "%s\n|cff".."C41E3A".."%s|r";
 local colorBuff                   = {
     Red = "|cFFC41E3A%s %s|r",
     Green = "|cFF15eb4d%s %s|r"
@@ -206,7 +207,11 @@ function MainWindow:Init()
     MainWindow:AddRaidFrames();
     MainWindow:AddBuffs()
     MainWindow:AddButtonToRaidFrame()
-    --MainWindow:Hide();
+    if     WrathRaidComp.mainWindow then
+        MainWindow:Show();
+    else
+        MainWindow:Hide();
+    end 
 end
 
 function MainWindow:AddButtonToRaidFrame()
@@ -256,7 +261,9 @@ end
 function MainWindow:ShowHide()
     if (MainWindow:IsVisible()) then
         MainWindow:Hide()
+        WrathRaidComp.mainWindow = false;
     else
+        WrathRaidComp.mainWindow = true;
         MainWindow:Show()
     end
 end
@@ -281,8 +288,13 @@ function MainWindow:AddRolesInFrame()
                         raidFrame[i].Text:SetText(textPlayerInRaidFrameUpdate:format(value.colorName,
                             ns.spec_icon_tcoords[value.spec].name))
                     else
-                        raidFrame[i].Text:SetText(textPlayerInRaidFrame:format(value.colorName,
+                        if value.spec == 0 then
+                            raidFrame[i].Text:SetText(textPlayerInRaidFrameUnknown:format(value.colorName,
                             ns.spec_icon_tcoords[value.spec].name))
+                        else
+                            raidFrame[i].Text:SetText(textPlayerInRaidFrame:format(value.colorName,
+                            ns.spec_icon_tcoords[value.spec].name))
+                        end
                     end
                     raidFrame[i].player = value.name;
                     raidFrame[i].class = value.class;
